@@ -1,10 +1,10 @@
 # Team project
 
-## 1\.The purpose of this project is 
+## 1\. The purpose of this project is 
 + to understand the concept of queues
 + to design operations associated to queues  
 + to implement the operations to realize ADT concept
-## 2\.Problem Description
+## 2\. Problem Description
 + There are many applications using queues such as
         Process queue of operating systems
         Assembly line in a factory
@@ -16,7 +16,7 @@
 + Simulated time (Counter) for 
         Entering an item to a particular queue (arrival time)
         Processing the next item (Dequeue)
-## 3\.Steps
+## 3\. Steps
 1. Generate data
 2. Organize data
     - Read in a set of items
