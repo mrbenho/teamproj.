@@ -28,17 +28,12 @@ int check_most_item(int, int); 	//利用比較法找出一個queue中最多在�
 void print_list(item*); //印出list的資料
 int count(item*);   	//求得queue中的node數量
 
-int main(void)
-{
+int main(void){
+    
     srand(time(NULL));
     int ID, Type, arrival_time;
     int num_of_data, i;
     char filename[10];
-
-    queue* Q1 = create();   //創造一個queue
-    queue* Q2 = create();
-    queue* Q3 = create();
-    item* I = NULL;
     int Waiting_time_1 = 0, Waiting_time_2 = 0, Waiting_time_3 = 0;     //資料在queue中等待時間
     int counter = 0;        //計數器
     int process_complete_1 = 0, process_complete_2 = 0, process_complete_3 = 0;     //處理完成的資料
@@ -47,15 +42,20 @@ int main(void)
     int q1_counter = 100, q2_counter = 100, q3_counter = 100;   //處理器的計數器
     int time_p1, time_p2, time_p3;  //設定處理器的處理時間
     int count_1, count_2, count_3;  //計算當前queue中的資料個數
-
+    
+    queue* Q1 = create();   //創造一個queue
+    queue* Q2 = create();
+    queue* Q3 = create();
+    item* I = NULL;
     item* data_reader_1 = malloc(sizeof(item));     //接收dequeue出來的資料
     item* data_reader_2 = malloc(sizeof(item));
     item* data_reader_3 = malloc(sizeof(item));
-
     item* processor_1 = NULL;
     item* processor_2 = NULL;
     item* processor_3 = NULL;
 
+    FILE* filepointer;
+    
     printf("Set processor 1 process time:");
     scanf("%d", &time_p1);
     printf("Set processor 2 process time:");
@@ -63,7 +63,6 @@ int main(void)
     printf("Set processor 3 process time:");
     scanf("%d", &time_p3);
 
-    FILE* filepointer;
     printf("Please enter the number of data to generate: ");
     scanf("%d", &num_of_data);
     printf("Please enter the name of file to store: ");
@@ -202,12 +201,11 @@ void enqueue(queue* Q, int ID, int Type, int time) {
     I->arrival_time = time;
     I->next = NULL;
 
-    if (Q->count == 0) {
+    if (Q->count == 0) 
         Q->front = I;
-    }
-    else {
+    else 
         Q->rear->next = I;
-    }
+    
     Q->rear = I;
     Q->count++;
 }
