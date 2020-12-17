@@ -1,8 +1,10 @@
+/*402415078 沈上荏 408415073 侯建邦*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
 
-#define max_time 20
+#define max_time 20     //定義counter最大值
 
 typedef struct storage {
     int ID;
@@ -17,14 +19,14 @@ typedef struct {
     struct storage* rear;
 }queue;
 
-queue* create();
-void enqueue(queue*, int, int, int);
-void dequeue(queue*, item**);
-void order(item**, int, int, int);
-int search(item*, item*);
-int check_most_item(int, int);
-void print_list(item*);
-int count(item*);
+queue* create();    //創造一個queue 其中 front = NULL, rear = NULL, and count = 0
+void enqueue(queue*, int, int, int);    // 把資料插在queue末端
+void dequeue(queue*, item**);   //讀取第一筆資料再刪除
+void order(item**, int, int, int);  //根據arrival time做升序排列
+int search(item*, item*);   //找出相同ID 以及 同Type且同時抵達 的資料
+int check_most_item(int, int); 	//利用比較法找出一個queue中最多在等待的個數
+void print_list(item*); //印出list的資料
+int count(item*);   	//求得queue中的node數量
 
 int main(void)
 {
@@ -33,20 +35,20 @@ int main(void)
     int num_of_data, i;
     char filename[10];
 
-    queue* Q1 = create();
+    queue* Q1 = create();   //創造一個queue
     queue* Q2 = create();
     queue* Q3 = create();
     item* I = NULL;
-    int Waiting_time_1 = 0, Waiting_time_2 = 0, Waiting_time_3 = 0;
-    int counter = 0;
-    int process_complete_1 = 0, process_complete_2 = 0, process_complete_3 = 0;
-    int max_item_1 = 0, max_item_2 = 0, max_item_3 = 0;
-    int deque_num_1 = 0, deque_num_2 = 0, deque_num_3 = 0;
-    int q1_counter = 100, q2_counter = 100, q3_counter = 100;
-    int time_p1, time_p2, time_p3;
-    int count_1, count_2, count_3;
+    int Waiting_time_1 = 0, Waiting_time_2 = 0, Waiting_time_3 = 0;     //資料在queue中等待時間
+    int counter = 0;        //計數器
+    int process_complete_1 = 0, process_complete_2 = 0, process_complete_3 = 0;     //處理完成的資料
+    int max_item_1 = 0, max_item_2 = 0, max_item_3 = 0;     //在queue中累積的資料的最大值
+    int deque_num_1 = 0, deque_num_2 = 0, deque_num_3 = 0;  //計算已dequeue的數量
+    int q1_counter = 100, q2_counter = 100, q3_counter = 100;   //處理器的計數器
+    int time_p1, time_p2, time_p3;  //設定處理器的處理時間
+    int count_1, count_2, count_3;  //計算當前queue中的資料個數
 
-    item* data_reader_1 = malloc(sizeof(item));
+    item* data_reader_1 = malloc(sizeof(item));     //接收dequeue出來的資料
     item* data_reader_2 = malloc(sizeof(item));
     item* data_reader_3 = malloc(sizeof(item));
 
@@ -85,6 +87,7 @@ int main(void)
 
         printf("\nTime:%d\n", counter);
 
+        /*當counter值與資料的arrival time相同時 根據資料的type enqueue至對應的queue中*/
         while (I != NULL  && I->arrival_time == counter) {
             switch (I->Type) {
                 case 1: {
@@ -108,7 +111,7 @@ int main(void)
             }
             I = I->next;
         }
-
+        /*判斷處理器狀態*/
         if (q1_counter == time_p1) {
             printf("Item %d in Processor 1  completed!\n", data_reader_1->ID);
             processor_1 = NULL;
@@ -141,7 +144,7 @@ int main(void)
         if (q2_counter < time_p2)
             printf("Item %d in Processor 2  processing...\n", data_reader_2->ID);
 
-        if (q3_counter == time_p2) {
+        if (q3_counter == time_p3) {
             printf("Item %d in Processor 3  completed!\n", data_reader_3->ID);
             processor_3 = NULL;
             process_complete_3++; //item num of complete
@@ -279,7 +282,6 @@ int check_most_item(int old, int new) {
 }
 
 void print_list(item* I) {
-    printf("Ordered list:\n");
     while (I != NULL) {
         printf("%3d %3d %4d\n", I->ID, I->Type, I->arrival_time);
         I = I->next;
